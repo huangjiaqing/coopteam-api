@@ -1,0 +1,35 @@
+{
+  "name": "coopteam-api",
+  "version": "1.0.0",
+  "description": "coopteam's api",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huangjiaqing/coopteam-backend.git"
+  },
+  "author": "Chia-Ching Huang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huangjiaqing/coopteam-backend/issues"
+  },
+  "homepage": "https://github.com/huangjiaqing/coopteam-backend#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "config": "^1.30.0",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "moment": "^2.22.0",
+    "mongoose": "^5.0.14"
+  }
+}
