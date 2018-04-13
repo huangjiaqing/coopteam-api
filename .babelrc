@@ -4,8 +4,7 @@
       "targets": {
         "node": true
       }
-    }],
-    "stage-2"
+    }]
   ],
   "plugins": [
     "transform-runtime",
