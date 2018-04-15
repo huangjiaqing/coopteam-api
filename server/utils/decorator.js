@@ -1,13 +1,13 @@
-const Router = require('koa-router')
-const { resolve } = require('path')
-const _ = require('lodash')
-const glob = require('glob')
-const R = require('ramda')
+const Router = require('koa-router');
+const { resolve } = require('path');
+const _ = require('lodash');
+const glob = require('glob');
+const R = require('ramda');
 
-const symbolPrefix = Symbol('prefix')
-const routerMap = new Map()
+const symbolPrefix = Symbol('prefix');
+const routerMap = new Map();
 
-const isArray = c => _.isArray(c) ? c : [c]
+const isArray = c => _.isArray(c) ? c : [c];
 
 export class Route {
   constructor (app, apiPath) {
@@ -17,63 +17,63 @@ export class Route {
   }
 
   init () {
-    glob.sync(resolve(this.apiPath, './**/*.js')).forEach(require)
+    glob.sync(resolve(this.apiPath, './**/*.js')).forEach(require);
 
     for (let [conf, controller] of routerMap) {
-      const controllers = isArray(controller)
-      let prefixPath = conf.target[symbolPrefix]
-      if (prefixPath) prefixPath = normalizePath(prefixPath)
-      const routerPath = prefixPath + conf.path
-      this.router[conf.method](routerPath, ...controllers)
+      const controllers = isArray(controller);
+      let prefixPath = conf.target[symbolPrefix];
+      if (prefixPath) prefixPath = normalizePath(prefixPath);
+      const routerPath = prefixPath + conf.path;
+      this.router[conf.method](routerPath, ...controllers);
     }
 
-    this.app.use(this.router.routes())
-    this.app.use(this.router.allowedMethods())
+    this.app.use(this.router.routes());
+    this.app.use(this.router.allowedMethods());
   }
 }
 
-const normalizePath = path => path.startsWith('/') ? path : `/${path}`
+const normalizePath = path => path.startsWith('/') ? path : `/${path}`;
 
 const router = conf => (target, key, descriptor) => {
-  conf.path = normalizePath(conf.path)
+  conf.path = normalizePath(conf.path);
 
   routerMap.set({
-    target: target,
+    target,
     ...conf
-  }, target[key])
-}
+  }, target[key]);
+};
 
-export const controller = path => target => (target.prototype[symbolPrefix] = path)
+export const controller = path => target => (target.prototype[symbolPrefix] = path);
 
 export const get = path => router({
   method: 'get',
-  path: path
-})
+  path
+});
 
 export const post = path => router({
   method: 'post',
-  path: path
-})
+  path
+});
 
 export const put = path => router({
   method: 'put',
-  path: path
-})
+  path
+});
 
 export const del = path => router({
   method: 'delete',
-  path: path
-})
+  path
+});
 
 export const use = path => router({
   method: 'use',
-  path: path
-})
+  path
+});
 
 export const all = path => router({
   method: 'all',
-  path: path
-})
+  path
+});
 
 const decorate = (args, middleware) => {
   let [ target, key, descriptor ] = args
