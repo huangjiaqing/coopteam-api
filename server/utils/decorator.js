@@ -76,15 +76,15 @@ export const all = path => router({
 });
 
 const decorate = (args, middleware) => {
-  let [ target, key, descriptor ] = args
+  let [ target, key, descriptor ] = args;
 
-  target[key] = isArray(target[key])
-  target[key].unshift(middleware)
+  target[key] = isArray(target[key]);
+  target[key].unshift(middleware);
 
-  return descriptor
-}
+  return descriptor;
+};
 
-const convert = middleware => (...args) => decorate(args, middleware)
+const convert = middleware => (...args) => decorate(args, middleware);
 
 export const auth = convert(async (ctx, next) => {
   console.log(`ctx.session.user: ${ctx.session.user}`);
