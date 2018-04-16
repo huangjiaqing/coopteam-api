@@ -13,7 +13,9 @@ export class Route {
   constructor (app, apiPath) {
     this.app = app
     this.apiPath = apiPath
-    this.router = new Router()
+    this.router = new Router({
+      prefix: '/api'
+    })
   }
 
   init () {
