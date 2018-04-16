@@ -1,8 +1,8 @@
-const Router = require('koa-router');
-const { resolve } = require('path');
-const _ = require('lodash');
-const glob = require('glob');
-const R = require('ramda');
+import Router from 'koa-router';
+import _ from lodash;
+import R from 'ramda';
+import glob from 'glob';
+import { resolve } from 'path';
 
 const symbolPrefix = Symbol('prefix');
 const routerMap = new Map();
@@ -122,22 +122,22 @@ export const admin = roleExpected => convert(async (ctx, next) => {
 })
 
 export const required = rules => convert(async (ctx, next) => {
-  let errors = []
+  let errors = [];
 
   const checkRules = R.forEachObjIndexed(
     (value, key) => {
       errors = R.filter(i => !R.has(i, ctx, ctx.request[key]))(value)
     }
-  )
+  );
 
-  checkRules(rules)
+  checkRules(rules);
 
   if (errors.length) {
     ctx.body = {
       success: false,
       code: 412,
       err: `${errors.join(',')} is required`
-    }
+    };
   }
 
   await next()

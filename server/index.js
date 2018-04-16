@@ -2,7 +2,7 @@ import Koa from 'koa';
 import { resolve } from 'path';
 import R from 'ramda';
 
-const MIDDLEWARES = ['common', 'router'];
+const MIDDLEWARES = ['common'];
 
 const useMiddlewares = (app) => {
   R.map(
@@ -17,7 +17,6 @@ const useMiddlewares = (app) => {
 };
 
 (async () => {
-
   const app = new Koa();
   await useMiddlewares(app);
 
