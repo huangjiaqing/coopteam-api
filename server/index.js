@@ -1,13 +1,27 @@
 import Koa from 'koa';
-import bodyParser from 'koa-bodyParser';
-// import router from './router';
+import { resolve } from 'path';
+import R from 'ramda';
 
-const app = new Koa();
+const MIDDLEWARES = ['common', 'router'];
 
-app.use(bodyParser());
+const useMiddlewares = (app) => {
+  R.map(
+    R.compose(
+      R.forEachObjIndexed(
+        initWith => initWith(app)
+      ),
+      require,
+      name => resolve(__dirname, `./middlewares/${name}`)
+    )
+  )(MIDDLEWARES);
+};
 
-// app.use(router.routes());
+(async () => {
 
-app.listen(4455, () => {
-  console.log('「 Coopteam 」request post is starting at port 4455')
-});
+  const app = new Koa();
+  await useMiddlewares(app);
+
+  app.listen(4455, () => {
+    console.log('「 Coopteam 」request post is starting at port 4455')
+  });
+})();
