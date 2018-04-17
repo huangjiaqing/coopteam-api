@@ -20,7 +20,7 @@ export class Route {
 
   init () {
     // 将路由文件都require进来 => require('routes/**.js')
-    glob.sync(resolve(this.apiPath, './**/*.js')).forEach(require);
+    // glob.sync(resolve(this.apiPath, './**/*.js')).forEach(require);
 
     for (let [conf, controller] of routerMap) {
       const controllers = isArray(controller);
@@ -43,7 +43,7 @@ const normalizePath = path => path.startsWith('/') ? path : `/${path}`;
  */
 const router = conf => (target, key, descriptor) => {
   conf.path = normalizePath(conf.path);
-
+  // console.log(...conf);
   routerMap.set(Object.assign({}, { target }, conf), target[key]);
   // routerMap.set({
   //   target,

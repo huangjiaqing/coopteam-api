@@ -16,11 +16,13 @@ const useMiddlewares = (app) => {
   )(MIDDLEWARES);
 };
 
-(async () => {
+async function start() {
   const app = new Koa();
   await useMiddlewares(app);
 
   app.listen(4455, () => {
     console.log('「 Coopteam 」request post is starting at port 4455')
   });
-})();
+};
+
+start();

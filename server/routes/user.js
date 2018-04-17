@@ -1,5 +1,5 @@
 import { controller, get, post, put } from '../lib/decorator';
-import { checkPassword } from '../service/admin';
+import { checkPassword } from '../service/user';
 
 @controller('/api/v0/user')
 export class UserController {
