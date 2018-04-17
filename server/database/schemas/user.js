@@ -45,31 +45,33 @@ const userSchema = new mongoose.Schema({
 userSchema.virtual('isLocked').get(() => !!(this.lockUntil && this.lockUntil > Data.now()));
 
 userSchema.pre('save', next => {
-  if (this.isNew) {
-    this.meta.createdAt = this.meta.updatedAt = Data.now();
-  } else {
-    this.meta.updatedAt = Data.now();
-  }
+  // if (this.isNew) {
+  //   this.meta.createdAt = this.meta.updatedAt = Data.now();
+  // } else {
+  //   this.meta.updatedAt = Data.now();
+  // }
 
   next();
 });
 
 userSchema.pre('save', next => {
-  if (!this.isModified('password')) return next();
+  // if (!this.isModified('password')) return next();
 
-  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
-    if (err) return err;
+  // bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
+  //   if (err) return err;
 
-    bcrypt.hash(this.password, salt, (error, hash) => {
-      if (err) return next(err);
+  //   bcrypt.hash(this.password, salt, (error, hash) => {
+  //     if (err) return next(err);
 
-      this.password = hash;
-      next();
-    });
-  });
+  //     this.password = hash;
+  //     next();
+  //   });
+  // });
+  next();
 });
 
 userSchema.methods = {
+
   comparePassword: (_password, password) => {
     return new Promise((resolve, reject) => {
       bcrypt.compare(_password, password, (err, isMatch) => {
