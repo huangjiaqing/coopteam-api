@@ -4,10 +4,10 @@ import { resolve } from 'path';
 
 const db = 'mongodb://127.0.0.1:27017/coopteam';
 
-mongoose.Promise = global.promise;
+mongoose.Promise = global.Promise;
 
 export const initSchemas = () => {
-  glob.sync(resolve(__dirname, './schema', '**/*.js')).forEach(require);
+  glob.sync(resolve(__dirname, './schemas', '**/*.js')).forEach(require);
 };
 
 export const initAdmin = async () => {

@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import R from 'ramda';
 import { resolve } from 'path';
+import { connect, initSchemas, initAdmin } from './database/init';
 
 const MIDDLEWARES = ['common', 'router'];
 
@@ -17,7 +18,12 @@ const useMiddlewares = (app) => {
 };
 
 async function start() {
+
   const app = new Koa();
+
+  await connect();
+  await initSchemas();
+  await initAdmin();
   await useMiddlewares(app);
 
   app.listen(4455, () => {

@@ -1,0 +1,12 @@
+{
+  // 开发环境
+  name: 'coopteam-dev',
+
+  // 端口
+  port: '4455',
+
+  // mongodb 配置
+  mongo: {
+    url: 'mongodb://127.0.0.1:27017/coopteam'
+  },
+}
