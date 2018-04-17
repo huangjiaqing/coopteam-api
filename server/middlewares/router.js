@@ -1,4 +1,4 @@
-import { Route } from '../utils/decorator';
+import { Route } from '../lib/decorator';
 import { resolve } from 'path';
 
 export const router = (app) => {
