@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import _ from lodash;
+import _ from 'lodash';
 import R from 'ramda';
 import glob from 'glob';
 import { resolve } from 'path';
@@ -19,6 +19,7 @@ export class Route {
   }
 
   init () {
+    // 将路由文件都require进来 => require('routes/**.js')
     glob.sync(resolve(this.apiPath, './**/*.js')).forEach(require);
 
     for (let [conf, controller] of routerMap) {
@@ -36,15 +37,24 @@ export class Route {
 
 const normalizePath = path => path.startsWith('/') ? path : `/${path}`;
 
+/**
+ * router修饰器
+ * @param {*object} conf method, path 
+ */
 const router = conf => (target, key, descriptor) => {
   conf.path = normalizePath(conf.path);
 
-  routerMap.set({
-    target,
-    ...conf
-  }, target[key]);
+  routerMap.set(Object.assign({}, { target }, conf), target[key]);
+  // routerMap.set({
+  //   target,
+  //   ...conf
+  // }, target[key]);
 };
 
+/**
+ * 控制器修饰器
+ * @param {*string} path 控制器所在的路径
+ */
 export const controller = path => target => (target.prototype[symbolPrefix] = path);
 
 export const get = path => router({
@@ -105,10 +115,9 @@ export const auth = convert(async (ctx, next) => {
 })
 
 export const admin = roleExpected => convert(async (ctx, next) => {
-  const { role } = ctx.session.user
+  const { role } = ctx.session.user;
 
-  console.log('admin session')
-  console.log(ctx.session.user)
+  console.log(`admin session: ${ctx.session.user}`);
 
   if (!role || role !== roleExpected) {
     return (
@@ -117,7 +126,7 @@ export const admin = roleExpected => convert(async (ctx, next) => {
         code: 403,
         err: '该用户没有权限'
       }
-    )
+    );
   }
 
   await next();
