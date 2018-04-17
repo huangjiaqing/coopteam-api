@@ -18,7 +18,6 @@ const useMiddlewares = (app) => {
 };
 
 async function start() {
-
   const app = new Koa();
 
   await connect();

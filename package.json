@@ -38,6 +38,10 @@
     "lodash": "^4.17.5",
     "moment": "^2.22.0",
     "mongoose": "^5.0.14",
+    "nodemon": "^1.17.3",
     "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.3"
   }
 }
