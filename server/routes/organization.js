@@ -6,7 +6,9 @@ export class OrgController {
 
   @get('/')
   async getOrg(ctx, next) {
-    ctx.body = '你好';
+    ctx.body = {
+      message: '你好啊'
+    };
   }
 
   @get('/addOrg')

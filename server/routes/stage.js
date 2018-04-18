@@ -1,12 +1,14 @@
 import { controller, get } from '../lib/decorator';
-import { addStage } from '../service/stage';
+import { getStage, addStage } from '../service/stage';
 
 @controller('/api/v0/stage')
 class StageController {
 
   @get('/')
   async getStage(ctx) {
-    ctx.body = '你好呀'
+    const res = await getStage();
+    console.log(res);
+    ctx.body = res;
   }
 
   @get('/addStage')
