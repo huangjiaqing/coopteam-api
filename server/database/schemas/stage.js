@@ -4,6 +4,8 @@ const stageSchema = new Schema({
   _projectId: Schema.Types.ObjectId,
   _creatorId: Schema.Types.ObjectId,
   name: String,
+  // 排序
+  order: Number,
   meta: {
     createdAt: {
       type: Date,
