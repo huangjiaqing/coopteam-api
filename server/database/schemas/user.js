@@ -18,6 +18,7 @@ const userSchema = new Schema({
       default: Date.now(),
     },
   },
+  _userId: Schema.Types.ObjectId,
 });
 
 mongoose.model('User', userSchema);
