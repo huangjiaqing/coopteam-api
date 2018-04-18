@@ -6,7 +6,6 @@ export class OrgController {
 
   @get('/')
   async getOrg(ctx, next) {
-    console.log('执行到这儿啦');
     ctx.body = '你好';
   }
 
