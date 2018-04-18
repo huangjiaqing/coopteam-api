@@ -12,7 +12,7 @@ class UserController {
     if (!matchData.user) {
       return (ctx.body = {
         success: false,
-        err: '用户名或密码输入错误'
+        err: '用户名或密码输入错误',
       });
     }
 
@@ -25,7 +25,8 @@ class UserController {
 
       return (ctx.body = {
         success: true,
-        message: '登录成功'
+        message: '登录成功',
+        user: matchData.user,
       });
     }
 

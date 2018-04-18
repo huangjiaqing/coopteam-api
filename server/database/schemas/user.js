@@ -27,6 +27,16 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.index({ email: 1 });
+userSchema.methods = {
+
+  comparePassword: (_password, password) => {
+    return new Promise((resolve, reject) => {
+      resolve((_password === password));
+    });
+  },
+  
+};
+
+// userSchema.index({ email: 1 });
 
 mongoose.model('User', userSchema);
