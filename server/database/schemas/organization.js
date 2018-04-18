@@ -25,7 +25,7 @@ const orgSchema = new Schema({
   },
 });
 
-orgSchema.static = {
+orgSchema.methods = {
 
   /**
    * 获取我为拥有者的企业列表
