@@ -149,5 +149,5 @@ export const required = rules => convert(async (ctx, next) => {
     };
   }
 
-  await next()
+  await next();
 })

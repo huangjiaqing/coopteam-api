@@ -1,10 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 
-const projectSchema = new Schema({
+const userSchema = new Schema({
   name: String,
-  _organizationId: Schema.Types.ObjectId,
-  description: String,
-  logo: String,
+  password: {
+    type: String,
+    unique: true,
+  },
+  avatarUrl: String,
+  email: String,
   meta: {
     createdAt: {
       type: Date,
@@ -17,4 +20,4 @@ const projectSchema = new Schema({
   },
 });
 
-mongoose.model('Project', projectSchema);
+mongoose.model('User', userSchema);
