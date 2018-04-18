@@ -6,28 +6,6 @@ const db = 'mongodb://127.0.0.1:27017/coopteam';
 
 mongoose.Promise = global.Promise;
 
-export const initSchemas = () => {
-  glob.sync(resolve(__dirname, './schemas', '**/*.js')).forEach(require);
-};
-
-export const initAdmin = async () => {
-  const User = mongoose.model('User');
-  let user = await User.findOne({
-    username: '黄嘉庆'
-  });
-
-  if (!user) {
-    const user = new User({
-      username: '黄嘉庆',
-      email: 'test@qq.com',
-      password: '123456',
-      role: 'admin',
-    });
-
-    await user.save();
-  }
-};
-
 export const connect = () => {
   let maxConnectTimes = 0;
 
@@ -63,4 +41,39 @@ export const connect = () => {
       resolve();
     });
   });
+};
+
+export const initSchemas = () => {
+  glob.sync(resolve(__dirname, './schemas', '**/*.js')).forEach(require);
+};
+
+export const initAdmin = async () => {
+  const User = mongoose.model('User');
+  const res = await User.find();
+
+  if (res.length > 0) {
+    return {
+      message: '已经有用户啦',
+      data: res
+    };
+  }
+
+  const data = [
+    '黄嘉庆',
+    '老王',
+    '戴思泰',
+    '张继科',
+  ].map((item, idx) => ({
+    name: item,
+    email: `test${idx+1}@zz.com`,
+    password: '123456',
+    _userId: new mongoose.Types.ObjectId
+  }));
+
+  try {
+    await User.insertMany(data);
+    return data;
+  } catch(e) {
+    console.log(e)
+  }
 };

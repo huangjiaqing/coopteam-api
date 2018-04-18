@@ -4,9 +4,12 @@ const userSchema = new Schema({
   name: String,
   password: {
     type: String,
-    unique: true,
+    // unique: true,
   },
-  avatarUrl: String,
+  avatarUrl: {
+    type: String,
+    default: '',
+  },
   email: String,
   meta: {
     createdAt: {
@@ -18,7 +21,12 @@ const userSchema = new Schema({
       default: Date.now(),
     },
   },
-  _userId: Schema.Types.ObjectId,
+  _userId: {
+    type: Schema.Types.ObjectId,
+    // unique: true
+  },
 });
+
+userSchema.index({ email: 1 });
 
 mongoose.model('User', userSchema);
