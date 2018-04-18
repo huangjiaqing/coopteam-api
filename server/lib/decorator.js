@@ -43,12 +43,10 @@ const normalizePath = path => path.startsWith('/') ? path : `/${path}`;
  */
 const router = conf => (target, key, descriptor) => {
   conf.path = normalizePath(conf.path);
-  // console.log('conf: ', { hello: 'hh', ...conf });
-  routerMap.set(Object.assign({}, { target }, conf), target[key]);
-  // routerMap.set({
-  //   target,
-  //   ...conf
-  // }, target[key]);
+  routerMap.set({
+    target,
+    ...conf
+  }, target[key]);
 };
 
 /**
