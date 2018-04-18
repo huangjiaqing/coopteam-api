@@ -22,7 +22,7 @@ async function start() {
 
   await connect();
   await initSchemas();
-  await initAdmin();
+  // await initAdmin();
   await useMiddlewares(app);
 
   app.listen(4455, () => {

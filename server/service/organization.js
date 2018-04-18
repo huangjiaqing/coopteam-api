@@ -10,8 +10,7 @@ export const addOrg = async () => {
   });
 
   try {
-    const res = await org.save();
-    console.log(res);
+    await org.save();
     return {
       message: '新增企业成功'
     }
