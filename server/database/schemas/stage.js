@@ -2,7 +2,8 @@ import mongoose, { Schema } from 'mongoose';
 
 const stageSchema = new Schema({
   _projectId: Schema.Types.ObjectId,
-  _creatorId: Schema.Types.ObjectId,
+  _createId: Schema.Types.ObjectId,
+  _stageId: Schema.Types.ObjectId,
   name: String,
   // 排序
   order: Number,
@@ -17,5 +18,9 @@ const stageSchema = new Schema({
     },
   },
 });
+
+stageSchema.methods = {
+
+};
 
 mongoose.model('Stage', stageSchema);

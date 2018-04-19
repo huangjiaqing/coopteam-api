@@ -1,19 +1,16 @@
-import { controller, get } from '../lib/decorator';
-import { getStage, addStage } from '../service/stage';
+import { controller, get, post, put, del, required } from '../lib/decorator';
+import Stage from '../service/stage';
 
 @controller('/api/v0/stage')
 class StageController {
 
-  @get('/')
-  async getStage(ctx) {
-    const res = await getStage();
-    console.log(res);
-    ctx.body = res;
-  }
-
-  @get('/addStage')
-  async addStage(ctx) {
-    const res = await addStage();
-    ctx.body = res;
+  @post('/create')
+  @required({
+    body: ['name', '_projectId', '_createId']
+  })
+  async create(ctx) {
+    const data = ctx.request.body;
+    const res = await Stage.createStage(data);
+    return (ctx.body = res);
   }
 }

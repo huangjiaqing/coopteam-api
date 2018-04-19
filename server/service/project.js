@@ -67,7 +67,7 @@ export default {
   },
 
   /**
-   * 删除数据
+   * 删除项目
    * @param {string} _projectId 
    */
   async removeProject(_projectId) {
