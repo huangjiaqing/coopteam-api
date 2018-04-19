@@ -16,7 +16,7 @@ export default {
       _organizationId
     });
     if (!projectsForOrgId.length) {
-      return []
+      return [];
     }
     for (let project of projectsForOrgId) {
       for (let memberId of project.members) {
@@ -42,4 +42,18 @@ export default {
 
     return await project.save();    
   },
+
+  /**
+   * 更新项目
+   * @param {string} _projectId 
+   * @param {object} data 
+   */
+  async updateProject(_projectId, data) {
+    const project = await Project.findOneAndUpdate({
+      _projectId
+    }, data);
+
+    return project;
+  },
+
 }

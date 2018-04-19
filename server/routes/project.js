@@ -4,7 +4,7 @@ import Project from '../service/project';
 @controller('/api/v0/project')
 class ProjectController {
 
-  @get('/')
+  @get('/all')
   @required({
     query: ['_organizationId', '_userId']
   })
@@ -37,6 +37,15 @@ class ProjectController {
       description,
       logo
     });
+    ctx.body = res;
+  }
+
+  @post('/update/:_projectId')
+  async update(ctx) {
+    const { _projectId } = ctx.params;
+    const data = ctx.request.body;
+    const res = await Project.updateProject(_projectId, data);
+    
     ctx.body = res;
   }
 }
