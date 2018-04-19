@@ -1,19 +1,27 @@
-import { controller, get } from '../lib/decorator';
-import { addOrg } from '../service/organization'
+import { controller, get, post, required } from '../lib/decorator';
+import { createOrg } from '../service/organization'
 
 @controller('/api/v0/organization')
 export class OrgController {
 
-  @get('/')
-  async getOrg(ctx, next) {
+  @get('/:_createId')
+  @required({
+    query: ['_createId']
+  })
+  async getMyOrgs(ctx, next) {
     ctx.body = {
       message: '你好啊'
     };
   }
 
-  @get('/addOrg')
-  async addOrg(ctx, next) {
-    const res = await addOrg();
+  @post('/create')
+  @required({
+    body: ['name', '_createId']
+  })
+  async create(ctx, next) {
+    const { name, _createId } = ctx.request.body;
+    const res = await createOrg(name, _createId);
+
     ctx.body = res;
   }
 }

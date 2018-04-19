@@ -1,8 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, SchemaTypes } from 'mongoose';
 
 const orgSchema = new Schema({
   name: String,
-  projectIds: Array,
+  projectIds: [Schema.Types.ObjectId],
   isDeleted: {
     type: Boolean,
     default: false
@@ -10,6 +10,9 @@ const orgSchema = new Schema({
   _createId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  _organizationId: {
+    type: Schema.Types.ObjectId,
   },
   meta: {
     createdAt: {
@@ -34,7 +37,6 @@ orgSchema.methods = {
 
   },
 
-  
 };
 
 mongoose.model('Organization', orgSchema);

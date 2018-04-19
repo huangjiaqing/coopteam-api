@@ -2,21 +2,19 @@ import mongoose from 'mongoose';
 
 const Organization = mongoose.model('Organization');
 
-export const addOrg = async () => {
+/**
+ * 创建企业
+ * @param {string} name 
+ * @param {*objectId} _createId 
+ */
+export const createOrg = async (name, _createId) => {
 
   const org = new Organization({
-    name: '油车青年',
-    projectIds: [],
+    name,
+    _createId,
+    _organizationId: mongoose.Types.ObjectId(),
   });
 
-  try {
-    await org.save();
-    return {
-      message: '新增企业成功'
-    }
-  } catch (e) {
-    return {
-      err: '新增企业失败'
-    }
-  }
+  return await org.save()
 };
+
