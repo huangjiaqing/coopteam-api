@@ -1,17 +1,18 @@
 import { controller, get, post, required } from '../lib/decorator';
-import { createOrg } from '../service/organization'
+import { createOrg, getMyOrgs } from '../service/organization'
 
 @controller('/api/v0/organization')
 export class OrgController {
 
-  @get('/:_createId')
+  @get('/')
   @required({
-    query: ['_createId']
+    query: ['_userId']
   })
   async getMyOrgs(ctx, next) {
-    ctx.body = {
-      message: '你好啊'
-    };
+    const { _userId } = ctx.query;
+    const orgs = await getMyOrgs(_userId);
+
+    ctx.body = orgs;
   }
 
   @post('/create')
