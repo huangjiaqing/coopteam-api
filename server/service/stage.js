@@ -40,5 +40,32 @@ export default {
     return await new Stage(stage).save();
   },
 
-  
+  /**
+   * 移动阶段
+   * @param {object} data 
+   */
+  async moveStage(data) {
+    const { order, _projectId, _stageId } = data;
+    const stages = await Stage.find({ _projectId });
+    R.compose(
+      // 编号
+      R.addIndex(R.forEach)(async (stage, idx) => {
+        await Stage.findOneAndUpdate({
+          _stageId: stage._stageId,
+        }, { order: idx + 1 });
+      }),
+      // 重组
+      (stages) => {
+        let isSame = (stage) => (
+          !R.equals(stage._stageId.toString(), _stageId)
+        );
+        let filters = R.filter(isSame)(stages);
+        let seleted = R.reject(isSame)(stages).pop();
+        let newStages = R.insert(order-1, seleted)(filters)
+        return newStages;
+      },
+      // 排序
+      R.sort((a, b) => (a.order - b.order))
+    )(stages)
+  }
 };
