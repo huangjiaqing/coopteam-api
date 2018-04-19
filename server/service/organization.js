@@ -17,13 +17,12 @@ export const createOrg = async (name, _createId) => {
   return await org.save()
 };
 
-
-  /**
-   * 获取我参与的所有企业
-   * @param {string} _userId 
-   */
-  export const getMyOrgs = async (_userId) => {
-    return await Organization.find({
-      _createId: _userId
-    });
-  };
+/**
+ * 获取我参与的所有企业
+ * @param {string} _userId 
+ */
+export const getMyOrgs = async (_userId) => {
+  return await Organization.find({
+    _createId: _userId
+  });
+};
