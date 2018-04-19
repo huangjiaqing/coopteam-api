@@ -66,4 +66,13 @@ export default {
     return project;
   },
 
+  /**
+   * 删除数据
+   * @param {string} _projectId 
+   */
+  async removeProject(_projectId) {
+    return await Project.findOneAndRemove({
+      _projectId
+    });
+  }
 }
