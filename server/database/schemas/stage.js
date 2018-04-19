@@ -19,8 +19,6 @@ const stageSchema = new Schema({
   },
 });
 
-stageSchema.methods = {
-
-};
+stageSchema.index({order: 1});
 
 mongoose.model('Stage', stageSchema);
