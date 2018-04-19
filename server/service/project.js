@@ -30,6 +30,16 @@ export default {
   },
 
   /**
+   * 获取项目
+   * @param {string} _projectId 
+   */
+  async getProjectInfo(_projectId) {
+    return await Project.findOne({
+      _projectId
+    });
+  },
+
+  /**
    * 创建项目
    * @param {object} info 
    */

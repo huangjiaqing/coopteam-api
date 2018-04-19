@@ -14,6 +14,16 @@ class ProjectController {
     ctx.body = res;
   }
 
+  @get('/')
+  @required({
+    query: ['_projectId']
+  })
+  async getProjectInfo(ctx) {
+    const { _projectId } = ctx.query;
+    const res = await Project.getProjectInfo(_projectId);
+    ctx.body = res;
+  }
+
   @post('/create')
   @required({
     body: [
