@@ -1,5 +1,5 @@
 import { controller, get, post, required } from '../lib/decorator';
-import { createProject, getProjects } from '../service/project';
+import Project from '../service/project';
 
 @controller('/api/v0/project')
 class ProjectController {
@@ -10,7 +10,7 @@ class ProjectController {
   })
   async getProjects(ctx) {
     const { _organizationId, _userId } = ctx.query;
-    const res = await getProjects(_organizationId, _userId);
+    const res = await Project.getProjects(_organizationId, _userId);
     ctx.body = res;
   }
 
@@ -30,7 +30,7 @@ class ProjectController {
       description='',
       logo='',
     } = ctx.request.body;
-    const res = await createProject({
+    const res = await Project.createProject({
       name,
       _createId,
       _organizationId,
