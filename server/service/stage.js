@@ -61,7 +61,7 @@ export default {
         );
         let filters = R.filter(isSame)(stages);
         let seleted = R.reject(isSame)(stages).pop();
-        let newStages = R.insert(order-1, seleted)(filters)
+        let newStages = R.insert(order-1, seleted)(filters);
         return newStages;
       },
       // 排序
