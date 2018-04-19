@@ -4,6 +4,17 @@ const Stage = mongoose.model('Stage');
 
 export default {
   /**
+   * 获取某个项目下的所有阶段
+   * @param {string} _projectId 
+   */
+  async getStages(_projectId) {
+    const stages = await Stage.find({ _projectId });
+    return (
+      R.sort((a, b)=>(a.order-b.order))(stages)
+    );
+  },
+  
+  /**
    * 创建阶段
    * @param {object} data 
    */

@@ -4,6 +4,16 @@ import Stage from '../service/stage';
 @controller('/api/v0/stage')
 class StageController {
 
+  @get('/')
+  @required({
+    query: ['_projectId']
+  })
+  async getStages(ctx) {
+    const { _projectId } = ctx.query;
+    const res = await Stage.getStages(_projectId);
+    return (ctx.body = res);
+  }
+
   @post('/create')
   @required({
     body: ['name', '_projectId', '_createId']
