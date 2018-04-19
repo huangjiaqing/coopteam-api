@@ -57,12 +57,12 @@ export default {
       // 重组
       (stages) => {
         let isSame = (stage) => (
-          !R.equals(stage._stageId.toString(), _stageId)
+          R.equals(stage._stageId.toString(), _stageId)
         );
-        let filters = R.filter(isSame)(stages);
-        let seleted = R.reject(isSame)(stages).pop();
-        let newStages = R.insert(order-1, seleted)(filters);
-        return newStages;
+        let others = R.reject(isSame)(stages);
+        let seleted = R.filter(isSame)(stages).pop();
+        let _stages = R.insert(order-1, seleted)(others);
+        return _stages;
       },
       // 排序
       R.sort((a, b) => (a.order - b.order))
