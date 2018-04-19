@@ -1,8 +1,18 @@
 import { controller, get, post, required } from '../lib/decorator';
-import { createProject } from '../service/project';
+import { createProject, getProjects } from '../service/project';
 
 @controller('/api/v0/project')
 class ProjectController {
+
+  @get('/')
+  @required({
+    query: ['_organizationId', '_userId']
+  })
+  async getProjects(ctx) {
+    const { _organizationId, _userId } = ctx.query;
+    const res = await getProjects(_organizationId, _userId);
+    ctx.body = res;
+  }
 
   @post('/create')
   @required({
