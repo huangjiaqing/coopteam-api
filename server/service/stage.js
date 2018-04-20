@@ -10,7 +10,15 @@ export default {
   async getStages(_projectId) {
     const stages = await Stage.find({ _projectId });
     return (
-      R.sort((a, b)=>(a.order-b.order))(stages)
+      R.compose(
+        R.addIndex(R.map)(
+          (stage, idx) => {
+            stage.order = idx + 1;
+            return stage
+          }
+        ),
+        R.sort((a, b)=>(a.order-b.order))
+      )(stages)
     );
   },
   
@@ -77,6 +85,15 @@ export default {
       },
       // 排序
       R.sort((a, b) => (a.order - b.order))
-    )(stages)
+    )(stages);
+  },
+
+  /**
+   * 删除阶段
+   * @param {string} _stageId 
+   */
+  async removeStage(_stageId) {
+    await Stage.findOneAndRemove({_stageId});
+    return { msg: "操作成功" };
   }
 };

@@ -43,4 +43,11 @@ class StageController {
       })
     }
   }
+
+  @del('/remove/:_stageId')
+  async remove(ctx) {
+    const { _stageId } = ctx.params;
+    const res = await Stage.removeStage(_stageId);
+    return (ctx.body = res);
+  }
 }
