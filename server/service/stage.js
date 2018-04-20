@@ -8,17 +8,8 @@ export default {
    * @param {string} _projectId 
    */
   async getStages(_projectId) {
-    const stages = await Stage.find({ _projectId });
     return (
-      R.compose(
-        R.addIndex(R.map)(
-          (stage, idx) => {
-            stage.order = idx + 1;
-            return stage
-          }
-        ),
-        R.sort((a, b)=>(a.order-b.order))
-      )(stages)
+      this.sortStages(await Stage.find({ _projectId }))
     );
   },
   
@@ -31,6 +22,7 @@ export default {
     let stages = await Stage.find({
        _projectId: data._projectId
     });
+    stages = this.sortStages(stages);
     let stage = {
       ...data,
       _stageId: mongoose.Types.ObjectId()
@@ -38,6 +30,7 @@ export default {
     if (!order) {
       let stageCount = stages.length;
       stage.order = stageCount+1;
+      return await new Stage(stage).save();
     }
     if (order && R.is(Number, order)) {
       stages.forEach(async (item) => {
@@ -49,15 +42,42 @@ export default {
             order: newOrder
           });
         }
+        return await new Stage(stage).save();
       });
     } else {
       return {
-        message: '创建阶段失败'
+        msg: '创建阶段失败'
       }
     }
-
-    return await new Stage(stage).save();
   },
+
+  /**
+   * 排序数据库中的阶段
+   * @param {Array} stages
+   */
+  sortStageForDB: async (stages=[]) => {
+    for (let i=0; i<stages.length; i++) {
+      await Stage.findOneAndUpdate({
+        _stageId: stages[i]._stageId
+      }, { order: i + 1 });
+    }
+  },
+
+  /**
+   * 对阶段数组进行排序
+   * @param {Array} stages
+   */
+  sortStages: (stages=[]) => (
+    R.compose(
+      R.addIndex(R.map)(
+        (stage, idx) => {
+          stage.order = idx + 1;
+          return stage
+        }
+      ),
+      R.sort((a, b)=>(a.order-b.order))
+    )(stages)
+  ),
 
   /**
    * 移动阶段
@@ -68,11 +88,7 @@ export default {
     const stages = await Stage.find({ _projectId });
     R.compose(
       // 编号
-      R.addIndex(R.forEach)(async (stage, idx) => {
-        await Stage.findOneAndUpdate({
-          _stageId: stage._stageId,
-        }, { order: idx + 1 });
-      }),
+      (stages) => this.sortStageForDB(stages),
       // 重组
       (stages) => {
         let isSame = (stage) => (
@@ -84,7 +100,7 @@ export default {
         return _stages;
       },
       // 排序
-      R.sort((a, b) => (a.order - b.order))
+      (stages) => this.sortStages(stages)
     )(stages);
   },
 
