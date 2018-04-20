@@ -28,28 +28,7 @@ export default {
       ...data,
       _stageId: mongoose.Types.ObjectId()
     };
-    // if (!order) {
-    //   let stageCount = stages.length;
-    //   stage.order = stageCount+1;
-    //   return await new Stage(stage).save();
-    // }
-    // if (order && R.is(Number, order)) {
-    //   stages.forEach(async (item) => {
-    //     if (R.gte(item.order, order)) {
-    //       let newOrder = item.order+1;
-    //       await Stage.findOneAndUpdate({
-    //         _stageId: item._stageId
-    //       }, {
-    //         order: newOrder
-    //       });
-    //     }
-    //   });
-    //   return await new Stage(stage).save();
-    // } else {
-    //   return {
-    //     msg: '创建阶段失败'
-    //   }
-    // }
+
     if (!order) {
       stage.order = stages.length + 1;
     } else {
