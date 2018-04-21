@@ -1,5 +1,6 @@
 import { controller, get, post, put, del, required } from '../lib/decorator';
 import Stage from '../service/stage';
+import R from 'ramda';
 
 @controller('/api/v0/stage')
 class StageController {
@@ -48,6 +49,23 @@ class StageController {
   async remove(ctx) {
     const { _stageId } = ctx.params;
     const res = await Stage.removeStage(_stageId);
+    return (ctx.body = res);
+  }
+
+  @put('/update/:_stageId')
+  @required({
+    body: ['name']
+  })
+  async update(ctx) {
+    const { _stageId } = ctx.params;
+    const { name } = ctx.request.body;
+    if (!(R.is(String, name) && name.length)) {
+      return (ctx.body = {
+        success: false,
+        err: 'name参数不正确'
+      })
+    }
+    const res = await Stage.updateStage(_stageId, name)
     return (ctx.body = res);
   }
 }

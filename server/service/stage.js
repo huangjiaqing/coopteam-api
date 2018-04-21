@@ -107,5 +107,16 @@ export default {
   async removeStage(_stageId) {
     await Stage.findOneAndRemove({_stageId});
     return { msg: "操作成功" };
-  }
+  },
+
+  /**
+   * 更新阶段
+   * @param {string} _stageId 
+   * @param {string} name 
+   */
+  async updateStage(_stageId, name) {
+    return await Stage.findOneAndUpdate({
+      _stageId
+    }, { name });
+  },
 };
