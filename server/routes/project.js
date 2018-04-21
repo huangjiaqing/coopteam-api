@@ -11,7 +11,7 @@ class ProjectController {
   async getProjectInfo(ctx) {
     const { _projectId } = ctx.query;
     const res = await Project.getProjectInfo(_projectId);
-    ctx.body = res;
+    return (ctx.body = res);
   }
 
   @get('/all')
@@ -21,7 +21,7 @@ class ProjectController {
   async getProjects(ctx) {
     const { _organizationId, _userId } = ctx.query;
     const res = await Project.getProjects(_organizationId, _userId);
-    ctx.body = res;
+    return (ctx.body = res);
   }
 
   @post('/create')
@@ -47,7 +47,7 @@ class ProjectController {
       description,
       logo
     });
-    ctx.body = res;
+    return (ctx.body = res);
   }
 
   @put('/update/:_projectId')
@@ -56,7 +56,7 @@ class ProjectController {
     const data = ctx.request.body;
     const res = await Project.updateProject(_projectId, data);
     
-    ctx.body = res;
+    return (ctx.body = res);
   }
 
   @del('/remove')
@@ -67,6 +67,6 @@ class ProjectController {
     const { _projectId } = ctx.query;
     const res = await Project.removeProject(_projectId);
 
-    ctx.body = res;
+    return (ctx.body = res);
   }
 }
