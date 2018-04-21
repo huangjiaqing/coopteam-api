@@ -5,8 +5,14 @@ import Task from '../service/task'
 class TaskController {
 
   @get('/')
-  async getTask(ctx, next) {
-    ctx.body = '这是任务哦';
+  @required({
+    query: ['_stageId']
+  })
+  async getTasks(ctx, next) {
+    const { _stageId } = ctx.query;
+    const res = await Task.getTasks(_stageId);
+
+    return (ctx.body = res);
   }
 
   @post('/create')
@@ -19,4 +25,5 @@ class TaskController {
 
     return (ctx.body = res);
   }
+
 }

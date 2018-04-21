@@ -71,7 +71,7 @@ export default {
       R.addIndex(R.map)(
         (stage, idx) => {
           stage.order = idx + 1;
-          return stage
+          return stage;
         }
       ),
       R.sort((a, b)=>(a.order-b.order))
