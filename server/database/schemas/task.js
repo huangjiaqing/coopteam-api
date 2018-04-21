@@ -25,7 +25,7 @@ const taskSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  pos: {
+  order: {
     type: Number,
     default: 0,
   },
@@ -42,13 +42,13 @@ const taskSchema = new Schema({
   involveMembers: [
     { type: Schema.Types.ObjectId,}
   ],
-  _creatorId: {
+  _createId: {
     type: Schema.Types.ObjectId
   },
   _executorId: {
     type: Schema.Types.ObjectId,
   },
-  _projectId: {
+  _stageId: {
     type: Schema.Types.ObjectId,
   },
   _taskId: {

@@ -1,5 +1,5 @@
-import { controller, get } from '../lib/decorator';
-import { addTask } from '../service/task'
+import { controller, get, post, put, del, required } from '../lib/decorator';
+import Task from '../service/task'
 
 @controller('/api/v0/task')
 class TaskController {
@@ -9,9 +9,14 @@ class TaskController {
     ctx.body = '这是任务哦';
   }
 
-  @get('/addTask')
-  async addTask(ctx, next) {
-    const res = await addTask();
-    ctx.body = res;
+  @post('/create')
+  @required({
+    body: ['content', '_createId', '_stageId']
+  })
+  async create(ctx) {
+    const data = ctx.request.body;
+    const res = await Task.createTask(data);
+
+    return (ctx.body = res);
   }
 }
