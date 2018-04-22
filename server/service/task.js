@@ -47,4 +47,16 @@ export default {
     )(tasks)
   ),
 
+  /**
+   * 更新任务
+   * @param {string} _taskId 
+   * @param {string} data 
+   */
+  async updateTask(_taskId, data) {
+    return (
+      Task.findOneAndUpdate({
+        _taskId
+      }, { ...data })
+    );
+  }
 }

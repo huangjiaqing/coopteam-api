@@ -26,4 +26,15 @@ class TaskController {
     return (ctx.body = res);
   }
 
+  @put('/update/:_taskId')
+  @required({
+    params: ['_taskId'],
+  })
+  async update(ctx) {
+    const data = ctx.request.body;
+    const { _taskId } = ctx.params;
+    const res = await Task.updateTask(_taskId, data);
+
+    return (ctx.body = res);
+  }
 }
