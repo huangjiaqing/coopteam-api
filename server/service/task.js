@@ -5,6 +5,16 @@ const Task = mongoose.model('Task');
 
 export default {
   /**
+   * 获取任务详情
+   * @param {string} _taskId 
+   */
+  async getTaskInfo(_taskId) {
+    return (
+      Task.findOne({_taskId})
+    );
+  },
+
+  /**
    * 获取某个阶段下的所有任务
    * @param {string} _stageId 
    */

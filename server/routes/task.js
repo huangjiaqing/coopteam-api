@@ -6,6 +6,17 @@ class TaskController {
 
   @get('/')
   @required({
+    query: ['_taskId']
+  })
+  async getTaskInfo(ctx) {
+    const { _taskId } = ctx.query;
+    const res = await Task.getTaskInfo(_taskId);
+
+    return (ctx.body = res);
+  }
+
+  @get('/all')
+  @required({
     query: ['_stageId']
   })
   async getTasks(ctx, next) {
