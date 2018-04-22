@@ -58,13 +58,31 @@ export default {
   ),
 
   /**
+   * 排序数据库中的任务
+   * @param {array} tasks
+   */
+  sortTasksForDB: async (tasks=[]) => {
+    let order = 1;
+    let _tasks = [];
+    for (let task of tasks) {
+      const res = await Task.findOneAndUpdate({
+        _taskId: task._taskId
+      }, { order });
+      _tasks.push(res);
+      order = order + 1;
+    }
+
+    return _tasks;
+  },
+
+  /**
    * 更新任务
    * @param {string} _taskId 
    * @param {string} data 
    */
   async updateTask(_taskId, data) {
     return (
-      Task.findOneAndUpdate({
+      await Task.findOneAndUpdate({
         _taskId
       }, { ...data })
     );
@@ -79,4 +97,33 @@ export default {
       Task.findOneAndRemove({_taskId})
     );
   },
+
+  /**
+   * 移动任务
+   * @param {object} data 
+   */
+  async moveTask(data) {
+    const { order, _stageId, _taskId } = data;
+    const tasks = await Task.find({_stageId});
+
+    return (
+      R.compose(
+        (tasks) => this.sortTasksForDB(tasks),
+        (tasks=[]) => {
+          if (R.isEmpty(tasks)) {
+            return;
+          }
+          let isSame = (task) => (
+            R.equals(task._taskId.toString(), _taskId)
+          );
+          let others = R.reject(isSame, tasks);
+          let selected = R.filter(isSame, tasks).pop();
+          let _tasks = R.insert(order-1, selected)(others);
+          console.log('_tasks: ', _tasks);
+          return _tasks;
+        },
+        (tasks) => this.sortTasks(tasks)
+      )(tasks)
+    );
+  }
 }

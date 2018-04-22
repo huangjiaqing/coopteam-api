@@ -60,4 +60,17 @@ class TaskController {
     return (ctx.body = res);
   }
 
+  @post('/move')
+  @required({
+    body: ['_stageId', '_taskId', 'order'],
+  })
+  async move(ctx) {
+    const data = ctx.request.body;
+    const res = await Task.moveTask(data);
+
+    return (ctx.body = {
+      msg: '移动列表成功'
+    });
+  }
+
 }
