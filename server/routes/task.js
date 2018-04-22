@@ -37,4 +37,16 @@ class TaskController {
 
     return (ctx.body = res);
   }
+
+  @del('/delete/:_taskId')
+  @required({
+    params: ['_taskId']
+  })
+  async delete(ctx) {
+    const { _taskId } = ctx.params;
+    const res = await Task.deleteTask(_taskId);
+
+    return (ctx.body = res);
+  }
+
 }

@@ -58,5 +58,15 @@ export default {
         _taskId
       }, { ...data })
     );
-  }
+  },
+
+  /**
+   * 删除任务
+   * @param {string} _taskId 
+   */
+  async deleteTask(_taskId) {
+    return (
+      Task.findOneAndRemove({_taskId})
+    );
+  },
 }
