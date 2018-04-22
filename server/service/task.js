@@ -61,7 +61,7 @@ export default {
    * 排序数据库中的任务
    * @param {array} tasks
    */
-  sortTasksForDB: async (tasks=[]) => {
+  async sortTasksForDB(tasks=[]) {
     let order = 1;
     let _tasks = [];
     for (let task of tasks) {
