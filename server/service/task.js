@@ -45,17 +45,19 @@ export default {
    * 排序任务列表
    * @param {Array} tasks
    */
-  sortTasks: (tasks=[]) => (
-    R.compose(
-      R.addIndex(R.map)(
-        (task, idx) => {
-          task.order = idx + 1;
-          return task;
-        }
-      ),
-      R.sort((a, b) => (a.order - b.order))
-    )(tasks)
-  ),
+  sortTasks(tasks=[]) {
+    return (
+      R.compose(
+        R.addIndex(R.map)(
+          (task, idx) => {
+            task.order = idx + 1;
+            return task;
+          }
+        ),
+        R.sort((a, b) => (a.order - b.order))
+      )(tasks)
+    )
+  },
 
   /**
    * 排序数据库中的任务
@@ -119,7 +121,6 @@ export default {
           let others = R.reject(isSame, tasks);
           let selected = R.filter(isSame, tasks).pop();
           let _tasks = R.insert(order-1, selected)(others);
-          console.log('_tasks: ', _tasks);
           return _tasks;
         },
         (tasks) => this.sortTasks(tasks)

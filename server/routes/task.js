@@ -72,5 +72,4 @@ class TaskController {
       msg: '移动列表成功'
     });
   }
-
 }
