@@ -101,30 +101,43 @@ export default {
   },
 
   /**
-   * 移动任务
-   * @param {object} data 
+   * 移动到某个阶段
+   * @param {string} _stageId 
+   * @param {string} _taskId 
    */
-  async moveTask(data) {
-    const { order, _stageId, _taskId } = data;
-    const tasks = await Task.find({_stageId});
-
+  async intoStage(_stageId, _taskId) {
     return (
+      await Task.findOneAndUpdate({
+        _taskId
+      }, { _stageId })
+    );
+  },
+
+  async moveTask(data) {
+    const { to, _taskId, order } = data;
+    try {
+      const tasks = await Task.find({_stageId: to});
+      const task = await this.intoStage(to, _taskId);
+  
+      // 更新位置
       R.compose(
         (tasks) => this.sortTasksForDB(tasks),
-        (tasks=[]) => {
-          if (R.isEmpty(tasks)) {
-            return;
-          }
-          let isSame = (task) => (
-            R.equals(task._taskId.toString(), _taskId)
+        (tasks) => {
+          return (
+            R.insert(order-1, task)(tasks)
           );
-          let others = R.reject(isSame, tasks);
-          let selected = R.filter(isSame, tasks).pop();
-          let _tasks = R.insert(order-1, selected)(others);
-          return _tasks;
         },
         (tasks) => this.sortTasks(tasks)
-      )(tasks)
-    );
+      )(tasks);
+
+      return {
+        msg: '移动任务成功'
+      };
+    } catch (e) {
+      throw e;
+      return {
+        msg: '移动任务失败'
+      };
+    }
   }
 }
