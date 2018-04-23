@@ -113,6 +113,10 @@ export default {
     );
   },
 
+  /**
+   * 移动任务
+   * @param {object} data 
+   */
   async moveTask(data) {
     const { to, _taskId, order } = data;
     try {
